@@ -81,10 +81,15 @@ var robot = {
 		drawVertex(robot.leftBottomWheel);
 	},
     updateWheelVertexes: function() {
-        var A = robot.vertexes.strafe - robot.vertexes.rotation*15;
-        var B = robot.vertexes.strafe + robot.vertexes.rotation*15;
-        var C = -robot.vertexes.forward - robot.vertexes.rotation*15;
-        var D = -robot.vertexes.forward + robot.vertexes.rotation*15;
+        var A = Math.min(robot.vertexes.strafe - robot.vertexes.rotation*15, 15);
+        var B = Math.min(robot.vertexes.strafe + robot.vertexes.rotation*15, 15);
+        var C = Math.min(-robot.vertexes.forward - robot.vertexes.rotation*15, 15);
+        var D = Math.min(-robot.vertexes.forward + robot.vertexes.rotation*15, 15);
+        
+        A = Math.max(A, -15);
+        B = Math.max(B, -15);
+        C = Math.max(C, -15);
+        D = Math.max(D, -15);
         
         robot.leftTopWheel.vertexX = B;
         robot.leftTopWheel.vertexY = D;
@@ -108,9 +113,12 @@ var robot = {
             robot.X %= 300;
             robot.Y %= 300;
         }
-        if(robot.vertexes.forward > 10 || robot.vertexes.strafe > 10) {
-            
-        }
+        robot.vertexes.forward = Math.min(robot.vertexes.forward, 15);
+        robot.vertexes.strafe = Math.min(robot.vertexes.strafe, 15);
+        robot.vertexes.forward = Math.max(robot.vertexes.forward, -15);
+        robot.vertexes.strafe = Math.max(robot.vertexes.strafe, -15);
+        robot.vertexes.rotation = Math.min(robot.vertexes.rotation, Math.PI);
+        robot.vertexes.rotation = Math.max(robot.vertexes.rotation, -Math.PI);
     }
     
 };
