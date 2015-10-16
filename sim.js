@@ -2,6 +2,7 @@
 var simSpace;
 var ctx;
 var gamePad;
+var vertexMode = false;
 var getContext = function() {
 	simSpace = document.getElementById("simSpace");
 	ctx = simSpace.getContext("2d");
@@ -113,6 +114,7 @@ var robot = {
             robot.X %= 300;
             robot.Y %= 300;
         }
+        
         robot.vertexes.forward = Math.min(robot.vertexes.forward, 15);
         robot.vertexes.strafe = Math.min(robot.vertexes.strafe, 15);
         robot.vertexes.forward = Math.max(robot.vertexes.forward, -15);
@@ -173,12 +175,50 @@ document.onkeydown = function(e) {
 };
 
 var update = function() {
-    
 	if(navigator.getGamepads()[0]) {
-		var gp = navigator.getGamepads()[0];
-        robot.X += 5*gp.axis[0];
-        robot.Y += 5*gp.axis[1];
-        robot.rotation += 5*gp.axis[2];
+		gamePad = navigator.getGamepads()[0];
+		if (vertexMode) {
+			console.log(vertexMode);
+			if(Math.abs(gamePad.axes[0]) > 0.1) {
+	        	robot.vertexes.strafe = 15*gamePad.axes[0];
+	        } else {
+	        	robot.vertexes.strafe = 0;
+	        }
+	        if(Math.abs(gamePad.axes[1]) > 0.1) {
+	        	robot.vertexes.forward = -(15*gamePad.axes[1]);
+	        } else {
+	        	robot.vertexes.forward = 0;
+	        }
+	        if(Math.abs(gamePad.axes[2]) > 0.1) {
+	        	robot.vertexes.rotation = gamePad.axes[2] * Math.PI;
+	        } else {
+	        	robot.vertexes.rotation = 0;
+	        }
+	        robot.updateWheelVertexes();
+		} else {
+	        if(Math.abs(gamePad.axes[0]) > 0.1) {
+	        	robot.X += 5*gamePad.axes[0];
+	        }
+	        if(Math.abs(gamePad.axes[1]) > 0.1) {
+	        	robot.Y += 5*gamePad.axes[1];
+	        }
+	        if(Math.abs(gamePad.axes[2]) > 0.1) {
+	        	robot.rotation -= gamePad.axes[2] * Math.PI/8;
+	        }
+		}
+		if(gamePad.buttons[10].pressed) {
+        	vertexMode = !vertexMode;
+        	console.log("toggled");
+        }
+		if(gamePad.buttons[8].pressed) {
+        	robot.rotation = 0;
+        	robot.X = 150;
+        	robot.Y = 150;
+        	robot.vertexes.forward = 0;
+        	robot.vertexes.strafe = 0;
+        	robot.vertexes.rotation = 0;
+        	robot.updateWheelVertexes();
+        }
         robot.cleanValues();
     }
     ctx.clearRect(0,0,300,300);
