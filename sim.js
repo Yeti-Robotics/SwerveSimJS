@@ -4,7 +4,7 @@ var ctx;
 var statCanvas;
 var statCtx;
 var gamePad;
-var vertexMode = false;
+var vertexMode = true;
 var getContext = function () {
     simSpace = document.getElementById("simSpace");
     ctx = simSpace.getContext("2d");
@@ -28,6 +28,12 @@ var drawStatBox = function () {
     statCtx.rect(275, 1, 50, 200);
     statCtx.rect(400, 1, 50, 200);
 
+    statCtx.font = "18px serif";
+    statCtx.fillText("UR", 0, 200);
+    statCtx.fillText("UL", 125, 200);
+    statCtx.fillText("BL", 250, 200);
+    statCtx.fillText("BR", 375, 200);
+
     statCtx.moveTo(100, 250);
     statCtx.arc(50, 250, 49, 0, 2 * Math.PI);
     statCtx.moveTo(225, 250);
@@ -41,8 +47,12 @@ var drawStatBox = function () {
 
 var getWheelStats = function (wheel) {
     var rotation = Math.atan(wheel.vertexX / wheel.vertexY);
+    if (wheel.vertexY > 0) {
+        rotation += Math.PI;
+    }
     return {
-        rotation: Math.atan(wheel.vertexX / wheel.vertexY),
+        rotation: rotation,
+        rotationCalc: rotation,
         statX: 50 * Math.sin(rotation),
         statY: 50 * Math.cos(rotation),
         power: Math.sqrt(Math.pow(wheel.vertexX, 2) + Math.pow(wheel.vertexY, 2))
@@ -169,8 +179,17 @@ var robot = {
         robot.vertexes.strafe = Math.max(robot.vertexes.strafe, -15);
         robot.vertexes.rotation = Math.min(robot.vertexes.rotation, Math.PI);
         robot.vertexes.rotation = Math.max(robot.vertexes.rotation, -Math.PI);
+    },
+    reset: function () {
+        robot.rotation = 0;
+        robot.X = 150;
+        robot.Y = 150;
+        robot.vertexes.forward = 0;
+        robot.vertexes.strafe = 0;
+        robot.vertexes.rotation = 0;
+        robot.updateWheelVertexes();
+        vertexMode = true;
     }
-
 };
 
 document.onkeydown = function (e) {
@@ -217,6 +236,9 @@ document.onkeydown = function (e) {
         robot.vertexes.rotation -= Math.PI / 8;
         robot.updateWheelVertexes();
         break;
+    case 8:
+        robot.reset();
+        break;
     }
     robot.cleanValues();
 };
@@ -224,24 +246,23 @@ document.onkeydown = function (e) {
 var update = function () {
     if (navigator.getGamepads()[0]) {
         gamePad = navigator.getGamepads()[0];
-        if (vertexMode) {
-            if (Math.abs(gamePad.axes[0]) > 0.1) {
-                robot.vertexes.strafe = 15 * gamePad.axes[0];
-            } else {
-                robot.vertexes.strafe = 0;
-            }
-            if (Math.abs(gamePad.axes[1]) > 0.1) {
-                robot.vertexes.forward = -(15 * gamePad.axes[1]);
-            } else {
-                robot.vertexes.forward = 0;
-            }
-            if (Math.abs(gamePad.axes[2]) > 0.1) {
-                robot.vertexes.rotation = gamePad.axes[2] * Math.PI;
-            } else {
-                robot.vertexes.rotation = 0;
-            }
-            robot.updateWheelVertexes();
+        if (Math.abs(gamePad.axes[0]) > 0.05) {
+            robot.vertexes.strafe = 15 * gamePad.axes[0];
         } else {
+            robot.vertexes.strafe = 0;
+        }
+        if (Math.abs(gamePad.axes[1]) > 0.05) {
+            robot.vertexes.forward = -(15 * gamePad.axes[1]);
+        } else {
+            robot.vertexes.forward = 0;
+        }
+        if (Math.abs(gamePad.axes[2]) > 0.05) {
+            robot.vertexes.rotation = gamePad.axes[2] * Math.PI;
+        } else {
+            robot.vertexes.rotation = 0;
+        }
+        robot.updateWheelVertexes();
+        if (!vertexMode) {
             if (Math.abs(gamePad.axes[0]) > 0.1) {
                 robot.X += 5 * gamePad.axes[0];
             }
@@ -256,13 +277,7 @@ var update = function () {
             vertexMode = !vertexMode;
         }
         if (gamePad.buttons[8].pressed) {
-            robot.rotation = 0;
-            robot.X = 150;
-            robot.Y = 150;
-            robot.vertexes.forward = 0;
-            robot.vertexes.strafe = 0;
-            robot.vertexes.rotation = 0;
-            robot.updateWheelVertexes();
+            robot.reset();
         }
         robot.cleanValues();
     }
