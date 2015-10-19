@@ -64,19 +64,35 @@ var updateWheelStats = function () {
     drawStatBox();
     statCtx.beginPath();
     statCtx.strokeStyle = "red";
-    statCtx.fillRect(25, 200, 50, -getWheelStats(robot.leftTopWheel).power / 21 * 200);
-    statCtx.fillRect(150, 200, 50, -getWheelStats(robot.rightTopWheel).power / 21 * 200);
-    statCtx.fillRect(275, 200, 50, -getWheelStats(robot.rightBottomWheel).power / 21 * 200);
-    statCtx.fillRect(400, 200, 50, -getWheelStats(robot.leftBottomWheel).power / 21 * 200);
+    statCtx.fillRect(25, 200, 50, -getWheelStats(robot.leftTopWheel).power / 21 * 
+
+200);
+    statCtx.fillRect(150, 200, 50, -getWheelStats(robot.rightTopWheel).power / 21 * 
+
+200);
+    statCtx.fillRect(275, 200, 50, -getWheelStats(robot.rightBottomWheel).power / 21 
+
+* 200);
+    statCtx.fillRect(400, 200, 50, -getWheelStats(robot.leftBottomWheel).power / 21 * 
+
+200);
 
     statCtx.moveTo(50, 250);
-    statCtx.lineTo(50 - getWheelStats(robot.leftTopWheel).statX, 250 - getWheelStats(robot.leftTopWheel).statY);
+    statCtx.lineTo(50 - getWheelStats(robot.leftTopWheel).statX, 250 - getWheelStats
+
+(robot.leftTopWheel).statY);
     statCtx.moveTo(175, 250);
-    statCtx.lineTo(175 - getWheelStats(robot.rightTopWheel).statX, 250 - getWheelStats(robot.rightTopWheel).statY);
+    statCtx.lineTo(175 - getWheelStats(robot.rightTopWheel).statX, 250 - 
+
+getWheelStats(robot.rightTopWheel).statY);
     statCtx.moveTo(300, 250);
-    statCtx.lineTo(300 - getWheelStats(robot.rightBottomWheel).statX, 250 - getWheelStats(robot.rightBottomWheel).statY);
+    statCtx.lineTo(300 - getWheelStats(robot.rightBottomWheel).statX, 250 - 
+
+getWheelStats(robot.rightBottomWheel).statY);
     statCtx.moveTo(425, 250);
-    statCtx.lineTo(425 - getWheelStats(robot.leftBottomWheel).statX, 250 - getWheelStats(robot.leftBottomWheel).statY);
+    statCtx.lineTo(425 - getWheelStats(robot.leftBottomWheel).statX, 250 - 
+
+getWheelStats(robot.leftBottomWheel).statY);
     statCtx.stroke();
     statCtx.strokeStyle = "black";
 };
@@ -88,54 +104,76 @@ var robot = {
     vertexes: {
         forward: 0,
         strafe: 0,
-        rotation: 0
+        rotation: 0,
+        avgX: 0,
+        avgY: 0
     },
     leftTopWheel: {
         vertexX: 0,
         vertexY: 0,
         getWheelX: function () {
-            return robot.X + 15 * Math.cos(robot.rotation) - 15 * Math.sin(robot.rotation);
+            return robot.X + 15 * Math.cos(robot.rotation) - 15 * Math.sin
+
+(robot.rotation);
         },
         getWheelY: function () {
-            return robot.Y - 15 * Math.cos(robot.rotation) - 15 * Math.sin(robot.rotation);
+            return robot.Y - 15 * Math.cos(robot.rotation) - 15 * Math.sin
+
+(robot.rotation);
         }
     },
     rightTopWheel: {
         vertexX: 0,
         vertexY: 0,
         getWheelX: function () {
-            return robot.X - 15 * Math.cos(robot.rotation) - 15 * Math.sin(robot.rotation);
+            return robot.X - 15 * Math.cos(robot.rotation) - 15 * Math.sin
+
+(robot.rotation);
         },
         getWheelY: function () {
-            return robot.Y - 15 * Math.cos(robot.rotation) + 15 * Math.sin(robot.rotation);
+            return robot.Y - 15 * Math.cos(robot.rotation) + 15 * Math.sin
+
+(robot.rotation);
         }
     },
     rightBottomWheel: {
         vertexX: 0,
         vertexY: 0,
         getWheelX: function () {
-            return robot.X - 15 * Math.cos(robot.rotation) + 15 * Math.sin(robot.rotation);
+            return robot.X - 15 * Math.cos(robot.rotation) + 15 * Math.sin
+
+(robot.rotation);
         },
         getWheelY: function () {
-            return robot.Y + 15 * Math.cos(robot.rotation) + 15 * Math.sin(robot.rotation);
+            return robot.Y + 15 * Math.cos(robot.rotation) + 15 * Math.sin
+
+(robot.rotation);
         }
     },
     leftBottomWheel: {
         vertexX: 0,
         vertexY: 0,
         getWheelX: function () {
-            return robot.X + 15 * Math.cos(robot.rotation) + 15 * Math.sin(robot.rotation);
+            return robot.X + 15 * Math.cos(robot.rotation) + 15 * Math.sin
+
+(robot.rotation);
         },
         getWheelY: function () {
-            return robot.Y + 15 * Math.cos(robot.rotation) - 15 * Math.sin(robot.rotation);
+            return robot.Y + 15 * Math.cos(robot.rotation) - 15 * Math.sin
+
+(robot.rotation);
         }
     },
     drawWheels: function () {
         ctx.beginPath();
         ctx.moveTo(robot.leftTopWheel.getWheelX(), robot.leftTopWheel.getWheelY());
         ctx.lineTo(robot.rightTopWheel.getWheelX(), robot.rightTopWheel.getWheelY());
-        ctx.lineTo(robot.rightBottomWheel.getWheelX(), robot.rightBottomWheel.getWheelY());
-        ctx.lineTo(robot.leftBottomWheel.getWheelX(), robot.leftBottomWheel.getWheelY());
+        ctx.lineTo(robot.rightBottomWheel.getWheelX(), 
+
+robot.rightBottomWheel.getWheelY());
+        ctx.lineTo(robot.leftBottomWheel.getWheelX(), 
+
+robot.leftBottomWheel.getWheelY());
         ctx.lineTo(robot.leftTopWheel.getWheelX(), robot.leftTopWheel.getWheelY());
         ctx.stroke();
 
@@ -145,10 +183,18 @@ var robot = {
         drawVertex(robot.leftBottomWheel);
     },
     updateWheelVertexes: function () {
-        var A = Math.max(Math.min(robot.vertexes.strafe - robot.vertexes.rotation * 15, 15), -15),
-            B = Math.max(Math.min(robot.vertexes.strafe + robot.vertexes.rotation * 15, 15), -15),
-            C = Math.max(Math.min(-robot.vertexes.forward - robot.vertexes.rotation * 15, 15), -15),
-            D = Math.max(Math.min(-robot.vertexes.forward + robot.vertexes.rotation * 15, 15), -15);
+        var A = Math.max(Math.min(robot.vertexes.strafe - robot.vertexes.rotation * 
+
+15, 15), -15),
+            B = Math.max(Math.min(robot.vertexes.strafe + robot.vertexes.rotation * 
+
+15, 15), -15),
+            C = Math.max(Math.min(-robot.vertexes.forward - robot.vertexes.rotation * 
+
+15, 15), -15),
+            D = Math.max(Math.min(-robot.vertexes.forward + robot.vertexes.rotation * 
+
+15, 15), -15);
 
         robot.leftTopWheel.vertexX = B;
         robot.leftTopWheel.vertexY = D;
@@ -161,6 +207,9 @@ var robot = {
 
         robot.leftBottomWheel.vertexX = A;
         robot.leftBottomWheel.vertexY = D;
+
+        robot.vertexes.avgX = (B + A) / 2;
+        robot.vertexes.avgY = (C + D) / 2;
     },
     cleanValues: function () {
         robot.rotation %= 2 * Math.PI;
@@ -173,12 +222,11 @@ var robot = {
             robot.Y %= 300;
         }
 
-        robot.vertexes.forward = Math.min(robot.vertexes.forward, 15);
-        robot.vertexes.strafe = Math.min(robot.vertexes.strafe, 15);
-        robot.vertexes.forward = Math.max(robot.vertexes.forward, -15);
-        robot.vertexes.strafe = Math.max(robot.vertexes.strafe, -15);
-        robot.vertexes.rotation = Math.min(robot.vertexes.rotation, Math.PI);
-        robot.vertexes.rotation = Math.max(robot.vertexes.rotation, -Math.PI);
+        robot.vertexes.forward = Math.max(Math.min(robot.vertexes.forward, 15), -15);
+        robot.vertexes.strafe = Math.max(Math.min(robot.vertexes.strafe, 15), -15);
+        robot.vertexes.rotation = Math.max(Math.min(robot.vertexes.rotation, 
+
+Math.PI), -Math.PI);
     },
     reset: function () {
         robot.rotation = 0;
@@ -239,7 +287,11 @@ document.onkeydown = function (e) {
     case 8:
         robot.reset();
         break;
+    case 86:
+        vertexMode = !vertexMode;
+        break;
     }
+    console.log(e.keyCode);
     robot.cleanValues();
 };
 
@@ -261,26 +313,22 @@ var update = function () {
         } else {
             robot.vertexes.rotation = 0;
         }
-        robot.updateWheelVertexes();
         if (!vertexMode) {
-            if (Math.abs(gamePad.axes[0]) > 0.1) {
-                robot.X += 5 * gamePad.axes[0];
-            }
-            if (Math.abs(gamePad.axes[1]) > 0.1) {
-                robot.Y += 5 * gamePad.axes[1];
-            }
-            if (Math.abs(gamePad.axes[2]) > 0.1) {
-                robot.rotation -= gamePad.axes[2] * Math.PI / 8;
-            }
+            robot.rotation -= gamePad.axes[2] * Math.PI / 8;
         }
+        robot.updateWheelVertexes();
         if (gamePad.buttons[10].pressed) {
             vertexMode = !vertexMode;
         }
         if (gamePad.buttons[8].pressed) {
             robot.reset();
         }
-        robot.cleanValues();
     }
+    if (!vertexMode) {
+        robot.X += robot.vertexes.avgX;
+        robot.Y += robot.vertexes.avgY;
+    }
+    robot.cleanValues();
     ctx.clearRect(0, 0, 300, 300);
     robot.drawWheels();
     updateWheelStats();
