@@ -6,9 +6,10 @@ A repository for a JS project that shows we can program a swerve drive
 - WS to modify forward/reverse vertexes
 - AD to modify strafe vertexes
 - QE to modify rotation vertexes
-- arrow keys to modify bases position (test feature)
-- ZX to modify bases rotation (test feature)
+- arrow keys to modify bases position
+- ZX to modify bases rotation
 - Backspace to reset
+- V to activate Freespin mode
 
 ## Gamepad Controls:
 - Back to reset (also changes modes)
@@ -18,7 +19,7 @@ A repository for a JS project that shows we can program a swerve drive
  - Left stick to control X and Y vectors
  - Right stick to control rotation
 
-#### Second Mode (Freespin Mode)
+#### Second Mode (Freespin Mode):
  - Vectors still show, but also approximates drive base movements (not perfectly accurate)
  - Left stick to move base
  - Right stick to rotate
