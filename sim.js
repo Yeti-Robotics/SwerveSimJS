@@ -132,10 +132,23 @@ var robot = {
     },
     drawWheels: function () {
         ctx.beginPath();
+        ctx.strokeStyle = "red";
         ctx.moveTo(robot.leftTopWheel.getWheelX(), robot.leftTopWheel.getWheelY());
         ctx.lineTo(robot.rightTopWheel.getWheelX(), robot.rightTopWheel.getWheelY());
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.moveTo(robot.rightTopWheel.getWheelX(), robot.rightTopWheel.getWheelY());
         ctx.lineTo(robot.rightBottomWheel.getWheelX(), robot.rightBottomWheel.getWheelY());
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = "blue";
+        ctx.moveTo(robot.rightBottomWheel.getWheelX(), robot.rightBottomWheel.getWheelY());
         ctx.lineTo(robot.leftBottomWheel.getWheelX(), robot.leftBottomWheel.getWheelY());
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.moveTo(robot.leftBottomWheel.getWheelX(), robot.leftBottomWheel.getWheelY());
         ctx.lineTo(robot.leftTopWheel.getWheelX(), robot.leftTopWheel.getWheelY());
         ctx.stroke();
 
