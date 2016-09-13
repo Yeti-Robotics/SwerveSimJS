@@ -24,10 +24,9 @@ A repository for a JS project that shows we can program a swerve drive
  - Left stick to move base
  - Right stick to rotate
 
+## Resources
+- [Swerve drive math](http://www.chiefdelphi.com/media/papers/2426 "aka robot-centric and field-centric wheel speeds and wheel steering angles for a vehicle with four-wheel independent drive and independent steering. Thanks Ether")
 
 ## TODO:
 - Make movement (and maybe position) dependent on aggregation of vertexes
 - Display actual values to make look more "Mathy"
-
-## Resources
-- [Swerve drive math](http://www.chiefdelphi.com/media/papers/2426 "aka robot-centric and field-centric wheel speeds and wheel steering angles for a vehicle with four-wheel independent drive and independent steering. Thanks Ether")
